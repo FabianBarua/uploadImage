@@ -10,10 +10,13 @@
   // togle dark
   const $body = document.body;
   const darkMode = localStorage.getItem("darkMode");
-  if (darkMode === "enabled") {
-    $body.classList.add("dark");
-  } else {
-    $body.classList.remove("dark");
+
+  if (darkMode) {
+    if (darkMode === "enabled") {
+      $body.classList.add("dark");
+    } else {
+      $body.classList.remove("dark");
+    }
   }
 
   const togleTheme = document.getElementById("togleTheme");
