@@ -1,5 +1,8 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 export const config = {
-  cloudName: 'djoemr2p6',
-  apiKey: '329188591789341',
-  apiSecret: 'g7r9oh6QzQGLEQCEN5eZnC3ZUYU'
+  cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  apiKey: process.env.CLOUDINARY_API_KEY,
+  apiSecret: process.env.CLOUDINARY_API_SECRET
 }
