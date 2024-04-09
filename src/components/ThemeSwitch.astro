@@ -1,0 +1,28 @@
+<button
+  id="togleTheme"
+  class="border border-grayBorder dark:border-grayBorderDark bg-transparent dark:bg-fondoV2Dark transition-all ease-in w-12 h-12 flex justify-center items-center rounded-lg"
+>
+  <img src="/svg/Moon_fill.svg" alt="" class="dark:hidden inline" />
+  <img src="/svg/Sun_fill.svg" alt="" class="dark:inline hidden" />
+</button>
+
+<script>
+  // togle dark
+  const $body = document.body;
+  const darkMode = localStorage.getItem("darkMode");
+  if (darkMode === "enabled") {
+    $body.classList.add("dark");
+  } else {
+    $body.classList.remove("dark");
+  }
+
+  const togleTheme = document.getElementById("togleTheme");
+  togleTheme.addEventListener("click", () => {
+    $body.classList.toggle("dark");
+    if ($body.classList.contains("dark")) {
+      localStorage.setItem("darkMode", "enabled");
+    } else {
+      localStorage.setItem("darkMode", null);
+    }
+  });
+</script>
