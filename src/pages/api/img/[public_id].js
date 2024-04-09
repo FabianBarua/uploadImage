@@ -1,5 +1,6 @@
-import { config } from '../config'
-
+const config = {
+  cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME
+}
 // eslint-disable-next-line semi
 export const prerender = false;
 

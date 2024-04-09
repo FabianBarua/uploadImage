@@ -1,12 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary'
-import { config } from './config'
+
+const config = {
+  cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME,
+  apiKey: import.meta.env.CLOUDINARY_API_KEY,
+  apiSecret: import.meta.env.CLOUDINARY_API_SECRET
+}
 
 // eslint-disable-next-line semi
 export const prerender = false;
 
 export const POST = async ({ request }) => {
   try {
-    // Verificar que la solicitud sea contentType 'multipart/form-data'
     const contentType = request.headers.get('content-type')
     if (!contentType || !contentType.includes('multipart/form-data')) {
       return new Response(JSON.stringify({ error: 'Unsupported media type' }), {
@@ -15,7 +19,6 @@ export const POST = async ({ request }) => {
       })
     }
 
-    // Verificar que se haya recibido un archivo de imagen (por ejemplo, llamado 'image')
     const formData = await request.formData()
     const imageFile = formData.get('file')
     if (!imageFile) {
@@ -31,12 +34,8 @@ export const POST = async ({ request }) => {
       api_secret: config.apiSecret
     })
 
-    // Subir la imagen a Cloudinary
-    // subir como BASE64
     const imageBuffer = await imageFile.arrayBuffer()
     const imageBase64 = Buffer.from(imageBuffer).toString('base64')
-
-    // define a max size for the image 2MB
 
     const maxSize = 2 * 1024 * 1024
     if (imageBase64.length > maxSize) {
@@ -49,11 +48,6 @@ export const POST = async ({ request }) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(`data:image/jpeg;base64,${imageBase64}`, {
       folder: 'imageUploads'
     })
-
-    // ONLY RETURN CLOUDINARY PUBLIC ID
-    //     public_id: 'imageUploads/kkpagfacuaqvpshima4b',
-    // only kkpagfacuaqvpshima4b
-    // the last part of the public_id
 
     const parts = cloudinaryResponse.public_id.split('/')
     const publicId = parts[parts.length - 1]
